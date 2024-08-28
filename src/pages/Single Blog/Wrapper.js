@@ -16,6 +16,10 @@ const Wrapper = styled.div`
       width: 100%;
     }
 
+    .description{
+      margin-bottom: 5rem;
+    }
+
     .info {
       display: flex;
       gap: 2rem;

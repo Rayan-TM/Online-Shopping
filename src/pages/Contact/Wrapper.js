@@ -6,6 +6,10 @@ const Wrapper = styled(RowWrapper)`
   ${({ theme }) => css`
     ${container}
 
+    .leaflet-top, .leaflet-bottom{
+      z-index: unset;
+    }
+
     small {
       color: ${theme.primary};
     }

@@ -4,17 +4,15 @@ import RowWrapper from "../../shared/Rowrapper";
 const Wrapper = styled(RowWrapper)`
   ${({ theme }) => css`
     padding: 30px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: ${theme.esther};
+    white-space: nowrap;
 
-    @media (max-width: 730px) {
-      flex-wrap: wrap;
-      gap: 2rem;
-
-      .right-side {
-        margin-left: auto;
-      }
+    &.shadow {
+      box-shadow: 0 4px 5px ${theme.secondary};
     }
-
-   
 
     .user {
       font-size: 1.5rem;
@@ -126,6 +124,15 @@ const Wrapper = styled(RowWrapper)`
     .header-search {
       cursor: pointer;
       font-size: 1.5rem;
+    }
+
+    @media (max-width: 730px) {
+      flex-wrap: wrap;
+      gap: 2rem;
+
+      .right-side {
+        margin-left: auto;
+      }
     }
 
     @media (max-width: 1050px) {

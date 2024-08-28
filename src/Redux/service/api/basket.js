@@ -16,14 +16,14 @@ const basketSlice = apiSlice.injectEndpoints({
     }),
     decreaseProductCount: builder.mutation({
       query: ([userID, productID]) => ({
-        url: `/basket/${userID}/${productID}/0`,
+        url: `/basket/${userID}/${productID}/0/1`,
         method: "POST",
       }),
       invalidatesTags: ["Basket"],
     }),
     increaseProductCount: builder.mutation({
-      query: ([userID, productID]) => ({
-        url: `/basket/${userID}/${productID}/1`,
+      query: ([userID, productID, count]) => ({
+        url: `/basket/${userID}/${productID}/1/${count}`,
         method: "POST",
       }),
       invalidatesTags: ["Basket"],

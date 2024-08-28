@@ -16,3 +16,13 @@ export const container = css`
   padding: 0 30px;
   margin: 20px 0;
 `;
+
+export const modal = css`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+`;

@@ -1,15 +1,8 @@
 import React from "react";
 import CTAButton from "../../shared/CTAButton";
-import ColumnWrapper from "../../shared/ColWrapper";
 import BoxWrapper from "./BoxWrapper";
 
-export default function CategoryBox({
-  id,
-  content,
-  color,
-  img,
-  aosDuration,
-}) {
+export default function CategoryBox({ id, content, color, img, aosDuration }) {
   return (
     <BoxWrapper
       $color={color}
@@ -21,7 +14,7 @@ export default function CategoryBox({
         <span className="title1">{content[0]}</span>
         <span className="title2">{content[1]}</span>
         <span className="title3">{content[2]}</span>
-        <CTAButton to="/products" $color={color} $background="#fff">
+        <CTAButton to="/products" $color={color}>
           Show
         </CTAButton>
         <img src={img} alt="product" />

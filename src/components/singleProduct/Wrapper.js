@@ -29,29 +29,6 @@ const Wrapper = styled.div`
         width: 100%;
       }
 
-      .add-product {
-        position: absolute;
-        bottom: -37%;
-        left: 0;
-        background-color: ${theme.secondary};
-        color: ${theme.primary};
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        height: 37%;
-        font-size: 1.2rem;
-        transition: all 0.2s linear;
-
-        svg{
-          margin-left: .5rem;
-        }
-      }
-
-      .add-product:hover {
-        background-color: ${theme.title};
-        color: ${theme.primary};
-      }
-
       .actions {
         position: absolute;
         top: 10px;

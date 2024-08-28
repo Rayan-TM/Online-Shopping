@@ -1,7 +1,7 @@
 import React from "react";
 import Path from "../../components/path/Path";
 import { useGetFavoriteProductsQuery } from "../../Redux/service/api/favorites";
-import { useGetUserInfoBytokenQuery } from "../../Redux/service/api/users";
+import { useGetUserInfoByTokenQuery } from "../../Redux/service/api/users";
 import SingleProduct from "../../components/singleProduct/SingleProduct";
 import Wrapper from "./Wrapper";
 
@@ -12,7 +12,7 @@ const paths = [
 
 export default function Favorites() {
   const userToken = localStorage.getItem("Token");
-  const { data: userInfo } = useGetUserInfoBytokenQuery(userToken);
+  const { data: userInfo } = useGetUserInfoByTokenQuery(userToken);
   const { data: favoriteProducts } = useGetFavoriteProductsQuery(
     userInfo?.[0].id
   );

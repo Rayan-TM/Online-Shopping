@@ -9,6 +9,7 @@ const ThemeBox = styled(RowWrapper)`
   position: relative;
   cursor: pointer;
   z-index: 999;
+  white-space: nowrap;
 
   svg {
     color: ${({ theme }) => theme.primary};
@@ -41,7 +42,7 @@ const ThemeBox = styled(RowWrapper)`
     color: ${({ theme }) => theme.primary};
   }
 
-  @media (max-width: 450px) {
+  @media (max-width: 500px) {
     span {
       display: none;
     }

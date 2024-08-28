@@ -10,6 +10,21 @@ const Wrapper = styled.div`
 
       & .product   {
         width: 23%;
+        img{
+          height: 100%;
+        }
+
+        @media (max-width: 980px) {
+          width: 30%;
+        }
+
+        @media (max-width: 680px) {
+          width: 45%;
+        }
+
+        @media (max-width: 480px) {
+          width: 100%;
+        }
       }
     }
     .not-found-message {

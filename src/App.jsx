@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./styles/global";
 import * as Themes from "./styles/theme";
-import { useState } from "react";
+import { useRoutes } from "react-router-dom";
+
 import Header from "./components/header/Header";
 import TopHeader from "./components/header/TopHeader";
-import { useRoutes } from "react-router-dom";
 
 import routes from "./routes";
 import Footer from "./components/footer/Footer";
@@ -15,6 +15,22 @@ import TopFooter from "./components/footer/TopFooter";
 function App() {
   const [theme, setTheme] = useState(() => getThemeFromLocalStorage());
   const router = useRoutes(routes);
+
+  const [isScrollActive, setIsScrollActive] = useState(false);
+  const [hasNavbarShadow, setHasNavbarShadow] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", toggleScroll);
+    };
+  }, []);
+
+  function toggleScroll() {
+    setIsScrollActive(window.scrollY > 500);
+    setHasNavbarShadow(window.scrollY > 0);
+  }
 
   function getThemeFromLocalStorage() {
     const currentTheme = localStorage.getItem("theme");
@@ -29,11 +45,15 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <TopHeader />
-      <Header changeTheme={getThemeFromLocalStorage} setTheme={setTheme} />
+      <Header
+        hasShadow={hasNavbarShadow}
+        changeTheme={getThemeFromLocalStorage}
+        setTheme={setTheme}
+      />
       {router}
       <TopFooter />
       <Footer />
-      <SubFooter />
+      <SubFooter isScrollActive={isScrollActive} />
     </ThemeProvider>
   );
 }

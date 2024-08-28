@@ -38,21 +38,7 @@ const Wrapper = styled.div`
         transform: scale(1.05);
       }
     }
-
-    .add-product {
-      margin-right: auto;
-      background-color: ${theme.secondary};
-      color: ${theme.title};
-      border-radius: 0.5rem;
-      padding: 0.5rem 1.2rem;
-      font-size: 1.2rem;
-      cursor: pointer;
-
-      svg {
-        margin-left: 0.5rem;
-      }
-    }
-
+    
     .price {
       font-size: 1.7rem;
       font-weight: 200;
@@ -68,14 +54,20 @@ const Wrapper = styled.div`
         justify-content: center;
         align-items: center;
         background-color: ${theme.primary};
-        color: ${theme.title};
+        color: #fff;
         font-size: 1.3rem;
         width: 40px;
         height: 40px;
-        border: none;
+        border-color: ${theme.title};
         border-radius: 50%;
         cursor: pointer;
         transition: all 0.2s linear;
+
+        &:hover {
+          color: ${theme.title};
+          border-color: ${theme.title};
+          background-color: ${theme.esther};
+        }
       }
     }
 
@@ -91,8 +83,6 @@ const Wrapper = styled.div`
         height: 250px;
       }
     }
-
-   
   `}
 `;
 

@@ -8,12 +8,28 @@ import Path from "../../components/path/Path";
 import { MdOutlineDateRange } from "react-icons/md";
 import { TbClockHour10 } from "react-icons/tb";
 import DOMPurify from "dompurify";
+import { useGetAllContentCommentsQuery } from "../../Redux/service/api/comments";
+import Comment from "../../components/comment/Comment";
+import Comments from "../../shared/Comments";
+import CommentForm from "../../components/commentForm/CommentForm";
+import { useGetUserInfoByTokenQuery } from "../../Redux/service/api/users";
 
 export default function SingleBlog() {
   const { blogUrl } = useParams();
 
+  const userToken = localStorage.getItem("Token");
   const { data: articles, isLoading } = useGetAllArticlesQuery();
   const article = useSelector((state) => selectArticleByUrl(blogUrl)(state));
+  const { data: comments, refetch } = useGetAllContentCommentsQuery(
+    [0, article?.id],
+    {
+      skip: !article,
+    }
+  );
+
+  const { data: userInfo } = useGetUserInfoByTokenQuery([], {
+    skip: !userToken,
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (!article) return <div>Article not found</div>;
@@ -24,6 +40,14 @@ export default function SingleBlog() {
     { id: 3, name: article.title, url: `/blog/${article.url}` },
   ];
 
+  const commentFormInfo = {
+    category: article.category,
+    contentID: article.id,
+    userID: userInfo?.[0].id,
+    isProduct: 0,
+    userToken,
+    refetch,
+  };
 
   return (
     <>
@@ -51,6 +75,16 @@ export default function SingleBlog() {
               __html: DOMPurify.sanitize(article.content),
             }}
           ></div>
+
+          <Comments>
+            <div className="comments">
+              {comments?.map((comment) => (
+                <Comment key={comment.id} {...comment} />
+              ))}
+            </div>
+
+            <CommentForm {...commentFormInfo} />
+          </Comments>
         </div>
       </Wrapper>
     </>

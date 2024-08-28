@@ -91,7 +91,7 @@ export default function Contact() {
               <span>{errors.message?.message}</span>
             </ColumnWrapper>
 
-            <CTAButton as="button" type="submit">
+            <CTAButton $isUnique as="button" type="submit">
               Send
             </CTAButton>
           </ColumnWrapper>

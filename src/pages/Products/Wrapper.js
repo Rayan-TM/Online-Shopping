@@ -11,21 +11,24 @@ const Wrapper = styled(RowWrapper)`
     .products {
       margin: 20px 0;
       display: flex;
+      justify-content: space-between;
       gap: 25px;
       flex-wrap: wrap;
+
+      img{
+        height: 100%;
+      }
 
       ${$selectedStructure === "grid"
         ? css`
             & > div {
               width: 22%;
 
-              @media (max-width: 992px) {
-                width: 30%;
+              @media (max-width: 1100px) {
+                width: 29%;
               }
 
-
-
-              @media (max-width: 576px) {
+              @media (max-width: 560px) {
                 width: 44%;
               }
 

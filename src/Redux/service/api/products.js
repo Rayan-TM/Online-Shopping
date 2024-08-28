@@ -10,6 +10,9 @@ const productsApi = apiSlice.injectEndpoints({
       query: ([page, limit, category, sort, search]) =>
         `/products/page/${page}/${limit}/${category}/${sort}/${search}`,
     }),
+    getSearchedProducts: builder.query({
+      query: (search) => `/products/search/${search}`,
+    }),
   }),
 });
 
@@ -27,5 +30,8 @@ const selectProductByUrl = (productUrl) =>
 
 export { selectProductByUrl, selectProductsData };
 
-export const { useGetAllProductsQuery, useGetProductsOfPageQuery } =
-  productsApi;
+export const {
+  useGetAllProductsQuery,
+  useGetProductsOfPageQuery,
+  useGetSearchedProductsQuery,
+} = productsApi;

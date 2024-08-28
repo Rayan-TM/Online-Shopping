@@ -48,7 +48,11 @@ export default function Products() {
     plusPageHandler,
   } = usePagination(allProducts, limit);
 
-  const { data: singlePageProducts, refetch } = useGetProductsOfPageQuery([
+  const {
+    data: singlePageProducts,
+    refetch,
+    isLoading,
+  } = useGetProductsOfPageQuery([
     currentPage,
     limit,
     currentCategory,
@@ -84,55 +88,62 @@ export default function Products() {
           categories={categories}
           type="Products"
         />
-        <div className="main">
-          <RowWrapper className="top-section">
-            <SelectBox
-              items={selectBoxItems}
-              currentItem={currentFilter}
-              setCurrentItem={setCurrentFilter}
-            />
-            <RowWrapper>
-              <span>
-                Showing {firstItemNumber}-{lastItemNumber} of{" "}
-                {allProducts?.length} results
-              </span>
 
-              <Icon
-                onClick={() => setSelectedStructure("list")}
-                className={selectedStructure === "list" ? "active" : null}
-              >
-                <FaList />
-              </Icon>
-              <Icon
-                onClick={() => setSelectedStructure("grid")}
-                className={selectedStructure === "grid" ? "active" : null}
-              >
-                <IoGrid />
-              </Icon>
-            </RowWrapper>
-          </RowWrapper>
-          <div className="products">
-            {singlePageProducts?.length ? (
-              singlePageProducts.map((product) => (
-                <div key={product.id}>
-                  <SingleProduct
-                    structure={selectedStructure}
-                    className="single-product"
-                    {...product}
-                  />
-                </div>
-              ))
-            ) : (
-              <div className="not-found-message">No Products Found</div>
-            )}
-          </div>
-          <Pagination
-            plusPage={plusPageHandler}
-            minusPage={minusPageHandler}
-            currentPage={currentPage}
-            lastPage={lastPage}
-            isNextDisabled={singlePageProducts?.length < limit}
-          />
+        <div className="main">
+          {isLoading ? (
+            <p className="loading">Loading...</p>
+          ) : (
+            <>
+              <RowWrapper className="top-section">
+                <SelectBox
+                  items={selectBoxItems}
+                  currentItem={currentFilter}
+                  setCurrentItem={setCurrentFilter}
+                />
+                <RowWrapper>
+                  <span>
+                    Showing {firstItemNumber}-{lastItemNumber} of{" "}
+                    {allProducts?.length} results
+                  </span>
+
+                  <Icon
+                    onClick={() => setSelectedStructure("list")}
+                    className={selectedStructure === "list" ? "active" : null}
+                  >
+                    <FaList />
+                  </Icon>
+                  <Icon
+                    onClick={() => setSelectedStructure("grid")}
+                    className={selectedStructure === "grid" ? "active" : null}
+                  >
+                    <IoGrid />
+                  </Icon>
+                </RowWrapper>
+              </RowWrapper>
+              <div className="products">
+                {singlePageProducts?.length ? (
+                  singlePageProducts.map((product) => (
+                    <div key={product.id}>
+                      <SingleProduct
+                        structure={selectedStructure}
+                        className="single-product"
+                        {...product}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="not-found-message">No Products Found</div>
+                )}
+              </div>
+              <Pagination
+                plusPage={plusPageHandler}
+                minusPage={minusPageHandler}
+                currentPage={currentPage}
+                lastPage={lastPage}
+                isNextDisabled={singlePageProducts?.length < limit}
+              />
+            </>
+          )}
         </div>
       </Wrapper>
     </>

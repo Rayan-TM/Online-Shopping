@@ -1,22 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import Wrapper from "./Wrapper";
 import ColumnWrapper from "../../shared/ColWrapper";
 import { Link } from "react-router-dom";
-import { FaHeart, FaRegEye, FaRegHeart } from "react-icons/fa6";
-import { TfiReload } from "react-icons/tfi";
-import { BsBasket } from "react-icons/bs";
+import { FaRegEye } from "react-icons/fa6";
+import ComparisonButton from "../comparisonButton/ComparisonButton";
+import AddToBasketButton from "../addToBasketButton/AddToBasketButton";
+import AddToFavoritesButton from "../addToFavoritesButton/AddToFavoritesButton";
+import { createPortal } from "react-dom";
+import QuickView from "../singleProduct/QuickView";
+import SingleProductInfo from "../SingleProductInfo/SingleProductInfo";
 
 export default function HorizontalSingleProduct({
-  addProductToBasketHandler,
-  addProductLoading,
-  isThisProductFavorite,
-  addProductToFavoritesHandler,
-  increaseCountLoading,
   image,
   name,
   price,
   url,
+  id,
+  comparisonButtonProps,
+  userInfo,
+  setIsQuickViewOpen
 }) {
+  const product = {
+    name,
+    image,
+    id,
+    price,
+    url,
+  };
+
+  const addToFavoritesProps = {
+    product,
+    userInfo,
+  };
+
+  const addToBasketButtonProps = {
+    ...product,
+    userInfo,
+  };
+
   return (
     <Wrapper>
       <div className="image-container">
@@ -29,31 +50,13 @@ export default function HorizontalSingleProduct({
         <span className="price">{price}$</span>
 
         <div className="actions">
-          <button title="quick view">
+          <button onClick={() => setIsQuickViewOpen(true)} title="quick view">
             <FaRegEye />
           </button>
-          <button title="compare">
-            <TfiReload />
-          </button>
-          <button
-            onClick={addProductToFavoritesHandler}
-            title={`${
-              isThisProductFavorite ? "Remove from" : "Add to"
-            } favorites list`}
-          >
-            {isThisProductFavorite ? <FaHeart /> : <FaRegHeart />}
-          </button>
+          <ComparisonButton {...comparisonButtonProps} />
+          <AddToFavoritesButton {...addToFavoritesProps} />
         </div>
-        <button
-          disabled={addProductLoading || increaseCountLoading}
-          onClick={addProductToBasketHandler}
-          className="add-product"
-        >
-          {addProductLoading || increaseCountLoading
-            ? "Adding Product"
-            : "ADD TO CART"}
-          <BsBasket />
-        </button>
+        <AddToBasketButton {...addToBasketButtonProps} />
       </ColumnWrapper>
     </Wrapper>
   );

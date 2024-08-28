@@ -13,6 +13,13 @@ body{
     background-color: ${({ theme }) => theme.esther};
     color: ${({ theme }) => theme.title};
     overflow-x: hidden;
+
+    .loading,
+    .no-product {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 1.5rem;
+    }
     
     .box{
         background-color: ${({ theme }) => theme.secondary};

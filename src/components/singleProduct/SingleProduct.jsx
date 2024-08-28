@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import HorizontalSingleProduct from "../horizontalSingleProduct/HorizontalSingleProduct";
 import Wrapper from "./Wrapper";
 import { FaRegEye } from "react-icons/fa6";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { TfiReload } from "react-icons/tfi";
-import { BsBasket } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import iziToast from "izitoast";
-import { useNavigate } from "react-router-dom";
-import { useGetUserInfoBytokenQuery } from "../../Redux/service/api/users";
-import {
-  useAddProductToFavoritesMutation,
-  useRemoveProductFromFavoritesMutation,
-  useGetFavoriteProductsQuery,
-} from "../../Redux/service/api/favorites";
-import {
-  useAddProductToBasketMutation,
-  useIncreaseProductCountMutation,
-  useGetBasketProductsQuery,
-} from "../../Redux/service/api/basket";
+import { useGetUserInfoByTokenQuery } from "../../Redux/service/api/users";
+import SingleProductInfo from "../SingleProductInfo/SingleProductInfo";
+import QuickView from "./QuickView";
+import { useSelector, useDispatch } from "react-redux";
+import ComparisonTable from "../comparisonTable/ComparisonTable";
+import ComparisonButton from "../comparisonButton/ComparisonButton";
+import AddToFavoritesButton from "../addToFavoritesButton/AddToFavoritesButton";
+import AddToBasketButton from "../addToBasketButton/AddToBasketButton";
 
 export default function SingleProduct({
   image,
@@ -26,136 +19,78 @@ export default function SingleProduct({
   price,
   url,
   id,
-  isFavorite = false,
+  album,
+  colors,
+  status,
+  category,
   structure = "grid",
 }) {
-  const navigate = useNavigate();
-  const [isThisProductFavorite, setIsThisProductFavorite] =
-    useState(isFavorite);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const comparisonProducts = useSelector((state) => state.comparison);
+
   const userToken = localStorage.getItem("Token");
-  const { data: userInfo } = useGetUserInfoBytokenQuery([], {
+  const { data: userInfo } = useGetUserInfoByTokenQuery([], {
     skip: !userToken,
   });
-  const { data: basketProducts } = useGetBasketProductsQuery(userInfo?.[0].id, {
-    skip: !userInfo,
-  });
-  const [addProductToBasket, { isLoading: addProductLoading }] =
-    useAddProductToBasketMutation();
-  const [increaseProductCount, { isLoading: increaseCountLoading }] =
-    useIncreaseProductCountMutation();
 
-  const { data: favoriteProducts } = useGetFavoriteProductsQuery(
-    userInfo?.[0].id,
-    {
-      skip: !userInfo,
-    }
-  );
-  const [addProductToFavorites] = useAddProductToFavoritesMutation();
-  const [removeProductFromFavorites] = useRemoveProductFromFavoritesMutation();
+  const productInfo = {
+    product: { image, name, price, url, id, album, colors, status, category },
+    userInfo,
+  };
 
-  useEffect(() => {
-    favoriteProducts &&
-      setIsThisProductFavorite(
-        favoriteProducts.some((product) => product.productTitle === name)
-      );
-  }, [favoriteProducts]);
+  const product = {
+    id,
+    image,
+    name,
+    price,
+    url,
+  };
 
-  function addProductToFavoritesHandler() {
-    if (userInfo) {
-      const isProductInFavorites = favoriteProducts.some(
-        (product) => product.productTitle === name
-      );
+  const addToBasketButtonProps = {
+    ...product,
+    userInfo,
+  };
 
-      if (isProductInFavorites) {
-        removeProductFromFavorites([userInfo?.[0].id, id]);
-      } else {
-        addProductToFavorites([
-          userInfo?.[0].id,
-          {
-            productID: id,
-            productImg: image,
-            productTitle: name,
-            productPrice: price,
-            productUrl: url,
-          },
-        ]);
-      }
-    } else {
-      iziToast.info({
-        message: "you must first sign up/in🙂",
-      });
-      navigate("/account");
-    }
-  }
+  const comparisonButtonProps = {
+    newProduct: {
+      ...product,
+      colors,
+      category,
+    },
+    comparisonProducts,
+    dispatch,
+    setIsComparisonOpen,
+  };
 
-  function addProductToBasketHandler() {
-    if (userInfo) {
-      const isProductInBasket = basketProducts.some(
-        (product) => product.productTitle === name
-      );
+  const horizontalProductProps = {
+    userInfo,
+    comparisonButtonProps,
+    setIsQuickViewOpen,
+    ...product,
+  };
 
-      if (isProductInBasket) {
-        increaseProductCount([userInfo?.[0].id, id]);
-        iziToast.show({
-          message: "Product Added!😁",
-          backgroundColor: "#4BB543",
-          messageColor: "#fff",
-        });
-      } else {
-        addProductToBasket([
-          {
-            productID: id,
-            productImg: image,
-            productTitle: name,
-            productPrice: price,
-            productUrl: url,
-          },
-          userInfo?.[0].id,
-        ]);
-        iziToast.show({
-          message: "Product Added!😁",
-          backgroundColor: "#4BB543",
-          messageColor: "#fff",
-        });
-      }
-    } else {
-      iziToast.info({
-        message: "you must first sign up/in🙂",
-      });
-      navigate("/account");
-    }
-  }
+  const comparisonTableProps = {
+    userInfo,
+    dispatch,
+    comparisonProducts,
+    setIsComparisonOpen,
+  };
 
-  if (structure === "grid") {
-    return (
+  const content =
+    structure === "grid" ? (
       <Wrapper>
         <div className="image-container">
           <img src={image} alt="product image" />
-          <button
-            disabled={addProductLoading || increaseCountLoading}
-            onClick={addProductToBasketHandler}
-            className="add-product"
-          >
-            {addProductLoading || increaseCountLoading
-              ? "Adding Product"
-              : "ADD TO CART"}
-            <BsBasket />
-          </button>
+          <AddToBasketButton isUnique {...addToBasketButtonProps} />
           <div className="actions">
-            <button title="quick view">
+            <button onClick={() => setIsQuickViewOpen(true)} title="quick view">
               <FaRegEye />
             </button>
-            <button title="compare">
-              <TfiReload />
-            </button>
-            <button
-              onClick={addProductToFavoritesHandler}
-              title={`${
-                isThisProductFavorite ? "Remove from" : "Add to"
-              } favorites list`}
-            >
-              {isThisProductFavorite ? <FaHeart /> : <FaRegHeart />}
-            </button>
+            <ComparisonButton {...comparisonButtonProps} />
+            <AddToFavoritesButton product={product} userInfo={userInfo} />
           </div>
         </div>
         <div className="content">
@@ -164,22 +99,42 @@ export default function SingleProduct({
           </Link>
           <div className="price">{price}$</div>
         </div>
+        {isQuickViewOpen &&
+          createPortal(
+            <QuickView
+              className="quick-view-container"
+              onClick={(e) =>
+                e.target.classList.contains("quick-view-container") &&
+                setIsQuickViewOpen(false)
+              }
+            >
+              <SingleProductInfo {...productInfo} />
+            </QuickView>,
+            document.body
+          )}
+        {isComparisonOpen && <ComparisonTable {...comparisonTableProps} />}
       </Wrapper>
+    ) : (
+      <HorizontalSingleProduct {...horizontalProductProps} />
     );
-  } else {
-    const props = {
-      addProductToBasketHandler,
-      addProductLoading,
-      isThisProductFavorite,
-      addProductToFavoritesHandler,
-      increaseCountLoading,
-      image,
-      name,
-      price,
-      url,
-      id,
-      isFavorite,
-    };
-    return <HorizontalSingleProduct {...props} />;
-  }
+
+  return (
+    <>
+      {content}
+      {isQuickViewOpen &&
+        createPortal(
+          <QuickView
+            className="quick-view-container"
+            onClick={(e) =>
+              e.target.classList.contains("quick-view-container") &&
+              setIsQuickViewOpen(false)
+            }
+          >
+            <SingleProductInfo {...productInfo} />
+          </QuickView>,
+          document.body
+        )}
+      {isComparisonOpen && <ComparisonTable {...comparisonTableProps} />}
+    </>
+  );
 }

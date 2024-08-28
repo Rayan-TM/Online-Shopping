@@ -1,22 +1,16 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-const ctaButtonMixin = (background, color) => css`
-  background-color: ${background};
-  border: 1px solid ${background};
-  &:hover {
-    color: ${color || '#fff'} ;
-  }
-`;
-
 const CTAButton = styled(Link)`
-  ${({ theme, $background, $color }) => css`
-    ${ctaButtonMixin($background || theme.primary, $color || theme.esther)}
-    color: ${$color || "#fff"};
+  ${({ theme, $color, $isUnique }) => css`
+    color: ${$isUnique ? "#fff" : $color};
+    background-color: ${$isUnique ? theme.primary : "#fff"};
+    border: 1px solid ${$isUnique ? theme.primary : "#fff"};
 
     &:hover {
       background: ${$color || theme.primary};
       border: ${theme.title};
+      color: ${$isUnique ? theme.secondary : $color};
     }
 
     &::before,

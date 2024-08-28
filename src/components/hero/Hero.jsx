@@ -9,7 +9,9 @@ export default function Hero() {
       <span className="title2">Wireless</span>
       <h1>Special headphones</h1>
       <div>
-        <CTAButton to="/products">Shopping by category</CTAButton>
+        <CTAButton $isUnique to="/products">
+          Shopping by category
+        </CTAButton>
         <div className="description">
           <span>Description</span>
           <p>

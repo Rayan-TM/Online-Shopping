@@ -32,12 +32,7 @@ export default function Offer({
           <span className="sup-title">{subTitle}</span>
           <span className="title">{rightTitle}</span>
           <p className="desc">{desc}</p>
-          <CTAButton
-            className="link"
-            to="/products"
-            $background="#fff"
-            $color="#212121"
-          >
+          <CTAButton className="link" to="/products" $color={color}>
             Start shopping
           </CTAButton>
         </ColumnWrapper>

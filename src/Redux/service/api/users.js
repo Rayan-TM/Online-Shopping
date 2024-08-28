@@ -1,5 +1,4 @@
 import apiSlice from "./apiSlice";
-import { createSelector } from "@reduxjs/toolkit";
 
 const usersSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -14,7 +13,7 @@ const usersSlice = apiSlice.injectEndpoints({
       query: ([username, password]) => `/users/${username}/${password}`,
     }),
 
-    getUserInfoBytoken: builder.query({
+    getUserInfoByToken: builder.query({
       query: (userToken) => `/users/${userToken}`,
     }),
   }),
@@ -23,5 +22,5 @@ const usersSlice = apiSlice.injectEndpoints({
 export const {
   useRegisterUserMutation,
   useGetUserInfoQuery,
-  useGetUserInfoBytokenQuery,
+  useGetUserInfoByTokenQuery,
 } = usersSlice;

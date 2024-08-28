@@ -2,10 +2,17 @@ import apiSlice from "./apiSlice";
 
 export const commentsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAllProductComments: builder.query({
+    getAllContentComments: builder.query({
       query: ([isProduct, contentID]) => `/comments/${isProduct}/${contentID}`,
+    }),
+    sendComment: builder.mutation({
+      query: (newComment) => ({
+        url: `/comments`,
+        method: "POST",
+        body: newComment,
+      }),
     }),
   }),
 });
 
-export const { useGetAllProductCommentsQuery } = commentsApi;
+export const { useGetAllContentCommentsQuery, useSendCommentMutation } = commentsApi;

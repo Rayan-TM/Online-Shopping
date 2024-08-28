@@ -10,6 +10,9 @@ export const articlesApi = apiSlice.injectEndpoints({
       query: ([page, limit, category, search]) =>
         `/blogs/page/${page}/${limit}/${category}/${search}`,
     }),
+    getSearchedBlogs: builder.query({
+      query: (search) => `/blogs/search/${search}`,
+    }),
   }),
 });
 
@@ -27,4 +30,8 @@ const selectArticleByUrl = (articleUrl) =>
 
 export { selectArticlesData, selectArticleByUrl };
 
-export const { useGetAllArticlesQuery, useGetBlogsOfPageQuery } = articlesApi;
+export const {
+  useGetAllArticlesQuery,
+  useGetBlogsOfPageQuery,
+  useGetSearchedBlogsQuery,
+} = articlesApi;

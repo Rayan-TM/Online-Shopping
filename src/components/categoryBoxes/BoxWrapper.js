@@ -20,14 +20,15 @@ const BoxWrapper = styled.div`
   }
 
   #box2 img {
+    left: -30px;
     top: -50px;
-    width: 130%;
+    width: 70%;
   }
 
   #box3 img {
     top: 0;
-    left: -100px;
-    width: 100%;
+    left: -20px;
+    width: 65%;
   }
 
   #box4 img {

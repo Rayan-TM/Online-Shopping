@@ -11,7 +11,6 @@ const Wrapper = styled(RowWrapper)`
     .products {
       margin: 20px 0;
       display: flex;
-      justify-content: space-between;
       gap: 25px;
       flex-wrap: wrap;
 

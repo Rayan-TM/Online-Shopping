@@ -28,8 +28,10 @@ export default function useSwiper(data, props) {
           height: 5rem;
         }
 
-        .swiper{
+        .swiper.swiper-initialized.swiper-horizontal{
           position: unset;
+          height: 400px;
+          padding-top: 1rem;
         }
 
         .swiper-button-prev{

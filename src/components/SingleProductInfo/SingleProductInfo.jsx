@@ -43,10 +43,6 @@ export default function SingleProductInfo({ product, userInfo }) {
     }
   }, [product]);
 
-  useEffect(() => {
-    console.log("counter", counter);
-  }, [counter]);
-
   const comparisonButtonProps = {
     newProduct: {
       id: product.id,

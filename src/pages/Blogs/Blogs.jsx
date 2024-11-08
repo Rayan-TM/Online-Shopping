@@ -42,7 +42,6 @@ export default function Blogs() {
     searchValue,
   ]);
 
-
   function changeCategory(currentCategory) {
     setCurrentCategory(currentCategory);
     setCurrentPage(1);
@@ -51,6 +50,11 @@ export default function Blogs() {
   useEffect(() => {
     refetch({ currentPage, limit, currentCategory, searchValue });
   }, [currentCategory]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    refetch({ currentPage: 1, limit, currentCategory, searchValue });
+  }, [searchValue]);
 
   return (
     <>

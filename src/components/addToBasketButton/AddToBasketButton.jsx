@@ -22,16 +22,19 @@ export default function AddToBasketButton({
 }) {
   const navigate = useNavigate();
 
-  const { data: basketProducts } = useGetBasketProductsQuery(userInfo?.[0].id, {
-    skip: !userInfo,
-  });
+  const { data: basketProducts } = useGetBasketProductsQuery(
+    userInfo?.[0]?.id,
+    {
+      skip: !userInfo?.length,
+    }
+  );
   const [addProductToBasket, { isLoading: addProductLoading }] =
     useAddProductToBasketMutation();
   const [increaseProductCount, { isLoading: increaseCountLoading }] =
     useIncreaseProductCountMutation();
 
   function addProductToBasketHandler() {
-    if (userInfo) {
+    if (userInfo?.length) {
       const isProductInBasket = basketProducts.some(
         (product) => product.productTitle === name
       );

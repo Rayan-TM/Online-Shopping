@@ -32,7 +32,7 @@ export default function SingleProduct({
   const comparisonProducts = useSelector((state) => state.comparison);
 
   const userToken = localStorage.getItem("Token");
-  const { data: userInfo } = useGetUserInfoByTokenQuery([], {
+  const { data: userInfo } = useGetUserInfoByTokenQuery(userToken, {
     skip: !userToken,
   });
 

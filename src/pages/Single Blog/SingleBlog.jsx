@@ -53,7 +53,7 @@ export default function SingleBlog() {
     <>
       <Path paths={paths} title={article.title} />
       <Wrapper>
-        <img className="cover" src={`/${article.image}`} alt={article.title} />
+        <img className="cover" src={`${article.image}`} alt={article.title} />
         <div className="content">
           <div className="info">
             <div className="category">

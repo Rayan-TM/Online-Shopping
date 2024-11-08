@@ -26,14 +26,17 @@ function Header({ changeTheme, setTheme, hasShadow }) {
   });
 
   const { data: favoriteProducts } = useGetFavoriteProductsQuery(
-    userInfo?.[0].id,
+    userInfo?.[0]?.id,
     {
       skip: !userInfo,
     }
   );
-  const { data: basketProducts } = useGetBasketProductsQuery(userInfo?.[0].id, {
-    skip: !userInfo,
-  });
+  const { data: basketProducts } = useGetBasketProductsQuery(
+    userInfo?.[0]?.id,
+    {
+      skip: !userInfo,
+    }
+  );
 
   function handleThemeBox(e) {
     localStorage.setItem("theme", e.target.innerText);
@@ -109,9 +112,9 @@ function Header({ changeTheme, setTheme, hasShadow }) {
             ))}
           </ul>
         </ThemeBox>
-        {userInfo ? (
+        {userInfo?.length > 0 ? (
           <RowWrapper className="user">
-            <FaRegUser /> <span>{userInfo[0].username}</span>
+            <FaRegUser /> <span>{userInfo[0]?.username}</span>
           </RowWrapper>
         ) : (
           <NavLink className="underlined" to="/account">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./styles/global";
 import * as Themes from "./styles/theme";
-import { useRoutes } from "react-router-dom";
+import { useRoutes, useLocation } from "react-router-dom";
 
 import Header from "./components/header/Header";
 import TopHeader from "./components/header/TopHeader";
@@ -15,6 +15,7 @@ import TopFooter from "./components/footer/TopFooter";
 function App() {
   const [theme, setTheme] = useState(() => getThemeFromLocalStorage());
   const router = useRoutes(routes);
+  const location = useLocation();
 
   const [isScrollActive, setIsScrollActive] = useState(false);
   const [hasNavbarShadow, setHasNavbarShadow] = useState(false);
@@ -26,6 +27,10 @@ function App() {
       window.removeEventListener("scroll", toggleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   function toggleScroll() {
     setIsScrollActive(window.scrollY > 500);

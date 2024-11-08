@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import {
   useAddProductToFavoritesMutation,
@@ -7,14 +8,15 @@ import {
 } from "../../Redux/service/api/favorites";
 
 export default function AddToFavoritesButton({ userInfo, product }) {
+  const navigate = useNavigate();
   const [isThisProductFavorite, setIsThisProductFavorite] = useState(false);
 
   const [addProductToFavorites] = useAddProductToFavoritesMutation();
   const [removeProductFromFavorites] = useRemoveProductFromFavoritesMutation();
   const { data: favoriteProducts } = useGetFavoriteProductsQuery(
-    userInfo?.[0].id,
+    userInfo?.[0]?.id,
     {
-      skip: !userInfo,
+      skip: !userInfo?.length,
     }
   );
 
@@ -28,7 +30,7 @@ export default function AddToFavoritesButton({ userInfo, product }) {
   }, [favoriteProducts]);
 
   function addProductToFavoritesHandler() {
-    if (userInfo) {
+    if (userInfo?.length) {
       if (isThisProductFavorite) {
         removeProductFromFavorites([userInfo?.[0].id, product.id]);
       } else {

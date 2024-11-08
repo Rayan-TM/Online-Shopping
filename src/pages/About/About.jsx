@@ -42,6 +42,11 @@ export default function About() {
         height: 15px;
         background-color: ${theme.primary};
       }
+
+      .swiper.swiper-initialized.swiper-horizontal{
+        height: 450px !important;
+        padding-top: 1rem;
+      }
     `,
     ],
   };

@@ -32,7 +32,7 @@ export default function SingleProduct() {
     }
   );
 
-  const { data: userInfo } = useGetUserInfoByTokenQuery([], {
+  const { data: userInfo } = useGetUserInfoByTokenQuery(userToken, {
     skip: !userToken,
   });
 

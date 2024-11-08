@@ -75,6 +75,17 @@ export default function Products() {
     });
   }, [currentCategory]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+    refetch({
+      currentPage: 1,
+      limit,
+      currentCategory,
+      currentFilter,
+      searchValue,
+    });
+  }, [searchValue]);
+
   return (
     <>
       <Path paths={paths} title="Products" />
